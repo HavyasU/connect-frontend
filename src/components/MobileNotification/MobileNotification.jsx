@@ -3,7 +3,11 @@ import { MdClose } from "react-icons/md";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import { useDispatch, useSelector } from "react-redux";
 import FriendsCard from "../FriendsCard/FriendsCard";
-import { setMobileNotification, setMobileProfile, userLogin } from "../../redux/userSlice";
+import {
+  setMobileNotification,
+  setMobileProfile,
+  userLogin,
+} from "../../redux/userSlice";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { CustomButton } from "../elementComponents";
