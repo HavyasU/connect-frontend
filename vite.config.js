@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
-      external: ['axios', 'react-hook-form'],
+      external: ['axios', 'react-hook-form', 'react-icons'],
     },
   },
 });
