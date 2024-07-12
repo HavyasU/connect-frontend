@@ -47,6 +47,7 @@ const Home = () => {
   } = useForm();
 
   const handlePostSubmit = async (data) => {
+    setLoading(true);
     const formdata = new FormData();
     for (let name in data) formdata.append(name, data[name]);
     formdata.append("type", file.type);
@@ -63,9 +64,11 @@ const Home = () => {
         fetchPostsData();
         setFile(null);
         setValue("description", "");
+        setLoading(false);
       })
       .catch((err) => {
         ToastMessage(err?.response?.data?.message);
+        setLoading(false);
       });
   };
   const fetchUserData = async () => {
