@@ -16,6 +16,7 @@ import MobileProfileCard from "./components/MobileProfileCard/MobileProfileCard"
 import MobileNotification from "./components/MobileNotification/MobileNotification";
 import { fetchRequestCaller } from "./utils";
 import EditProfile from "./components/EditProfile/EditProfile";
+
 const backend_url = import.meta.env.VITE_BACKEND_URL;
 export const serverCon = axios.create({
   baseURL: backend_url,
