@@ -9,7 +9,7 @@ import { ThemeProvider } from "styled-components";
 import { createTheme } from "@mui/material";
 
 const darkTheme = createTheme({
-  palette: {
+  palette: { 
     mode: "dark",
   },
 });
