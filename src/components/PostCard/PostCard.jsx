@@ -340,7 +340,7 @@ const PostCard = ({ post, user, fetchPosts }) => {
                       src={
                         comment?.userId?.profileUrl
                           ? `${baseUrlForUploads}/${comment?.userId?.profileUrl}`
-                          : NoProfcomment?.userId?.profileUrlile
+                          : NoProfile
                       }
                       alt={comment?.userId?.firstName}
                       className="w-10 h-10 rounded-full object-cover"
