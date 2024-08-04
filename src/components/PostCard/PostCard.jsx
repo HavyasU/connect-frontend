@@ -159,6 +159,14 @@ const PostCard = ({ post, user, fetchPosts }) => {
     });
     setComments(res.data);
   };
+  const deletePost = async (id) => {
+    let res = await fetchRequestCaller({
+      url: "/posts/delete-post/" + id,
+      method: "DELETE",
+      token: user?.token,
+    });
+    fetchPosts();
+  };
   const getComments = async () => {
     setReplyComments(0);
     fetchComments();

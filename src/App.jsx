@@ -42,7 +42,9 @@ const Layout = () => {
         .then((res) => {
           if (res?.data?.success === "new") {
             dispatch(userLogin({ ...user, token: res?.data?.newToken }));
-            window.location.reload();
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
           }
         })
         .catch((err) => {
@@ -50,6 +52,9 @@ const Layout = () => {
         });
     }
   };
+  useEffect(() => {
+    checkJWT();
+  }, []);
   useEffect(() => {
     checkJWT();
   }, [user]);
@@ -90,19 +95,19 @@ const App = () => {
     fetchfriendsData();
   }, [user]);
   return (
-    <div data-theme={theme} className="w-full  min-h-[100vh] ">
+    <div data-theme={theme}>
       <ToastContainer
-        position="top-right"
+        position="top-center"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={true}
         closeOnClick
         pauseOnFocusLoss
-        className={"min-w-max max-sm:text-xs max-w-[90vw] m-auto"}
         draggable
         pauseOnHover
         theme={theme}
         transition={Flip}
+        className={"px-3"}
       />
       {MobileProfileView && <MobileProfileCard />}
       {edit && <EditProfile />}
@@ -126,8 +131,6 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
-
-      {/* Same as */}
     </div>
   );
 };

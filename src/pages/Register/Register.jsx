@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { TbSocial } from "react-icons/tb";
 import {
@@ -9,11 +9,13 @@ import {
   TextInput,
 } from "../../components/elementComponents";
 import { serverCon, ToastMessage } from "../../App";
+import { user } from "../../assets/data";
 
 const Register = () => {
   const navigate = useNavigate();
   const [emailsent, setEmailsent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { user } = useSelector((state) => state.user);
   const {
     register,
     handleSubmit,
@@ -22,6 +24,11 @@ const Register = () => {
   } = useForm({
     mode: "onChange",
   });
+  useEffect(() => {
+    if (user?.firstName) {
+      navigate("/");
+    }
+  }, [user]);
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     serverCon
@@ -114,6 +121,7 @@ const Register = () => {
                 styles="w-full max-md:h-12"
                 register={register("password", {
                   required: "Password is required!",
+                  minLength: [6, "Minimum length should be 6"],
                 })}
                 error={errors.password ? errors.password?.message : ""}
               />

@@ -1,16 +1,12 @@
-import React, { useState } from "react";
-import logo from "/images/connectLogo.png";
-import { SetTheme } from "../../redux/themeSlice";
-import { Link, json, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { TbSocial } from "react-icons/tb";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Loading, TextInput } from "../../components/elementComponents";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomButton from "../../components/elementComponents/CustomButton";
 import { serverCon, ToastMessage } from "../../App";
 import { userLogin } from "../../redux/userSlice";
-import { toast, ToastContainer } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,6 +26,7 @@ const Login = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
 
   const onSubmit = async (data) => {
     setSubmitting(true);
@@ -55,6 +52,11 @@ const Login = () => {
         setSubmitting(false);
       });
   };
+  useEffect(() => {
+    if (user?.firstName) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <>

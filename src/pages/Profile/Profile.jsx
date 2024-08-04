@@ -9,6 +9,7 @@ import TopBar from "../../components/TopBar/TopBar";
 import { fetchPosts, fetchRequestCaller } from "../../utils";
 import { userLogin } from "../../redux/userSlice";
 import { SetPosts } from "../../redux/postSlice";
+import { ToastMessage } from "../../App";
 // import { posts } from "../../assets/data";
 
 const Profile = () => {
@@ -19,8 +20,6 @@ const Profile = () => {
   const [userInfo, setUserInfo] = useState(user);
   const [loading, setLoading] = useState(false);
 
-  const handleDelete = () => {};
-  const handleLikePost = () => {};
   const fetchUserData = async () => {
     let res = await fetchRequestCaller({
       token: user?.token,
@@ -32,7 +31,7 @@ const Profile = () => {
   const fetchPostsData = async () => {
     let posts = await fetchPosts({
       url: "/posts/get-user-post/" + id,
-      method: "POST",
+      method: "GET",
       token: user.token,
       dispatch: dispatch,
     });
@@ -76,8 +75,7 @@ const Profile = () => {
                   post={post}
                   key={post?._id}
                   user={user}
-                  deletePost={handleDelete}
-                  likePost={handleLikePost}
+                  fetchPosts={fetchPostsData}
                 />
               ))
             ) : (
