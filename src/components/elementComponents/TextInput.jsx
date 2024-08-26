@@ -28,6 +28,9 @@ const TextInput = React.forwardRef(
             name={name}
             placeholder={placeholder}
             ref={ref}
+            onChange={() => {
+              console.log("dkdhih");
+            }}
             className={`bg-secondary rounded-lg border' border-[#66666690] outline-none text-xl max-sm:text-sm
                text-ascent-1 max-md:py-2 px-4 py-3 placeholder:text-[#666] ${styles}`}
             {...register}

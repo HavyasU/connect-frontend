@@ -107,6 +107,12 @@ const TopBar = ({ friendRequests }) => {
               />
             )}
           </div>
+          <Link
+            to={"/chats"}
+            className="flex gap-2 items-center justify-center"
+          >
+            Chats
+          </Link>
           <div className="max-md:hidden">
             <CustomButton
               onClick={() => dispatch(userLogout())}
@@ -116,10 +122,12 @@ const TopBar = ({ friendRequests }) => {
               }
             />
           </div>
-          <div className="hidden max-md:flex "
+          <div
+            className="hidden max-md:flex "
             onClick={() => {
               dispatch(setMobileProfile(true));
-            }}>
+            }}
+          >
             <FaRegUserCircle size={20} />
           </div>
         </div>

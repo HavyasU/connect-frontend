@@ -290,16 +290,16 @@ const Home = () => {
                       className="flex items-center justify-between "
                     >
                       <Link
-                        to={"profile/" + from._id}
+                        to={"profile/" + from?._id}
                         className=" w-full flex gap-4 items-center cursor-pointer"
                       >
                         <img
                           src={
-                            from.profileUrl
-                              ? `${baseUrlForUploads}/${from.profileUrl}`
+                            from?.profileUrl
+                              ? `${baseUrlForUploads}/${from?.profileUrl}`
                               : NoProfile
                           }
-                          alt={from.firstName}
+                          alt={from?.firstName}
                           className=" w-10 h-10 object-cover rounded-full"
                         />
                         <div className="flex-1">

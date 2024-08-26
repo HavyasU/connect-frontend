@@ -1,10 +1,13 @@
-body {
-  width: 100%;
-  min-height: 100vh;
-}
-
 .bell-animation {
   animation: ease 0.6s animate-bell infinite;
+}
+.c-height {
+  min-height: 100svb;
+  height: 100svb;
+  max-height: 100svb;
+}
+body {
+  background: var(--bg-primary);
 }
 @keyframes animate-bell {
   0% {
@@ -42,3 +45,7 @@ body {
     opacity: 1;
   }
 }
+
+/* * {
+  outline: 3px solid red;
+} */

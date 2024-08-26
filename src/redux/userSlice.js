@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { user } from "../assets/data";
 const initialState = {
-    user: JSON.parse(localStorage.getItem('user')) ?? {},
+    user: JSON.parse(localStorage.getItem('user')) ?? null,
     edit: false,
     MobileProfileView: false,
     MobileNotificationView: false,
     friendRequests: [],
-    suggestedFriends: []
+    suggestedFriends: [],
 };
 
 const userSlice = createSlice({
@@ -37,6 +37,7 @@ const userSlice = createSlice({
         updateFriendRequests(state, action) {
             state.friendRequests = action.payload;
         },
+
     }
 });
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Home, Login, Profile, Register, ResetPassword } from "./pages";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,8 @@ import MobileProfileCard from "./components/MobileProfileCard/MobileProfileCard"
 import MobileNotification from "./components/MobileNotification/MobileNotification";
 import { fetchRequestCaller } from "./utils";
 import EditProfile from "./components/EditProfile/EditProfile";
+import Chats from "./pages/Chats/Chats";
+import useSocket from "./hooks/useSocket";
 
 const backend_url = import.meta.env.VITE_BACKEND_URL;
 export const serverCon = axios.create({
@@ -68,6 +70,7 @@ const Layout = () => {
 const App = () => {
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
+
   const {
     user,
     edit,
@@ -76,7 +79,15 @@ const App = () => {
     suggestedFriends,
     friendRequests,
   } = useSelector((state) => state.user);
-
+  const {
+    socket,
+    connected,
+    sendMessage,
+    onMessage,
+    friendsStatus,
+    typingStatus,
+    setFriendsStatus,
+  } = useSocket("ws://localhost:8000", user);
   const fetchfriendsData = async () => {
     let suggested = await fetchRequestCaller({
       token: user?.token,
@@ -94,6 +105,7 @@ const App = () => {
   useEffect(() => {
     fetchfriendsData();
   }, [user]);
+
   return (
     <div data-theme={theme}>
       <ToastContainer
@@ -129,6 +141,20 @@ const App = () => {
           element={<VerificationPage />}
         />
         <Route path="/register" element={<Register />} />
+        <Route
+          path="/chats"
+          element={
+            <Chats
+              connected={connected}
+              friendsStatus={friendsStatus}
+              typingStatus={typingStatus}
+              onMessage={onMessage}
+              sendMessage={sendMessage}
+              socket={socket}
+              setFriendsStatus={setFriendsStatus}
+            />
+          }
+        />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </div>
