@@ -87,7 +87,7 @@ const App = () => {
     friendsStatus,
     typingStatus,
     setFriendsStatus,
-  } = useSocket("ws://localhost:8000", user);
+  } = useSocket(import.meta.env.VITE_SOCKET_URL, user);
   const fetchfriendsData = async () => {
     let suggested = await fetchRequestCaller({
       token: user?.token,
