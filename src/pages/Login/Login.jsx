@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import React, { useState } from "react";
-=======
 import React, { useEffect, useState } from "react";
->>>>>>> 3a6ee8b6230ec07838073f673dbd59a533068a4d
 import { Link, useNavigate } from "react-router-dom";
 import { TbSocial } from "react-icons/tb";
 import { useForm } from "react-hook-form";
