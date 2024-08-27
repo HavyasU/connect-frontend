@@ -12,7 +12,9 @@ const useSocket = (url, user) => {
 
   useEffect(() => {
     if (user) {
-      socket.current = io(url);
+      socket.current = io(url, {
+        transports: ["websocket"],
+      });
 
       socket.current.on("connect", () => {
         setConnected(true);
