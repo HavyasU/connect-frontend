@@ -11,6 +11,7 @@ const TextInput = React.forwardRef(
       register,
       name,
       error,
+      autofocus,
       containerStyle = "",
     },
     ref
@@ -28,6 +29,7 @@ const TextInput = React.forwardRef(
             name={name}
             placeholder={placeholder}
             ref={ref}
+            autoFocus={autofocus}
             onChange={() => {
               console.log("dkdhih");
             }}

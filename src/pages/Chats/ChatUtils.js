@@ -36,17 +36,7 @@ export const saveMessage = async (
     return res;
 };
 
-export const getMessages = async (conversationId, user) => {
-    let res = await fetchRequestCaller({
-        data: {
-            "conversationId": conversationId
-        },
-        url: "chats/getMessages",
-        method: "POST",
-        token: user ? user.token : null
-    });
-    return res;
-};
+
 
 //message read/unread tracking
 export const updateMessagesAsRead = async (conversationId, user) => {

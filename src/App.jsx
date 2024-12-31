@@ -24,11 +24,13 @@ export const serverCon = axios.create({
   baseURL: backend_url,
   responseType: "json",
 });
+
 export const baseUrlForUploads = backend_url + "uploads";
 
 export const ToastMessage = (message) => {
   toast(message);
 };
+
 
 const Layout = () => {
   const { user } = useSelector((state) => state.user);
@@ -87,7 +89,10 @@ const App = () => {
     friendsStatus,
     typingStatus,
     setFriendsStatus,
-  } = useSocket(import.meta.env.VITE_SOCKET_URL, user);
+  } =
+    (import.meta.env.VITE_SOCKET_URL, user);
+
+
   const fetchfriendsData = async () => {
     let suggested = await fetchRequestCaller({
       token: user?.token,
@@ -105,6 +110,10 @@ const App = () => {
   useEffect(() => {
     fetchfriendsData();
   }, [user]);
+
+  if (!useSocket) {
+    return (<div>Loading...</div>);
+  }
 
   return (
     <div data-theme={theme}>
@@ -149,7 +158,6 @@ const App = () => {
               friendsStatus={friendsStatus}
               typingStatus={typingStatus}
               onMessage={onMessage}
-              sendMessage={sendMessage}
               socket={socket}
               setFriendsStatus={setFriendsStatus}
             />

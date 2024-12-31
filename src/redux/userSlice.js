@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { user } from "../assets/data";
 const initialState = {
-    user: JSON.parse(localStorage.getItem('user')) ?? null,
+    user: JSON.parse(localStorage?.getItem('user')) ?? null,
     edit: false,
     MobileProfileView: false,
     MobileNotificationView: false,
