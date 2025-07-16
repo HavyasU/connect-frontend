@@ -26,7 +26,7 @@ const socketContextProvider = ({ children }) => {
     });
     const [users, Setusers] = useState([
         {
-            status: "online", 
+            status: "online",
             typing: false,
             _id: "653063f584f1236168a109ca",
         },
@@ -50,7 +50,7 @@ const socketContextProvider = ({ children }) => {
             socket.current?.close();
             setConnected(false);
         };
-    }, [socket]);
+    }, [user]);
 
     const handleUsers = (users) => {
         Setusers(users);
@@ -66,21 +66,31 @@ const socketContextProvider = ({ children }) => {
     };
 
     // Receiving messages and also setting notifications for messages from other conversations
-    const onMessage = (data) => {
-        const { senderId, recieverId } = data;
-        
-        if (senderId?._id === currentChat || recieverId?._id === currentChat) {
-            // Mark message as received if it's in current chat
-            updateMessagesAsRecieved(recieverId, senderId);
-            const copyHatsHistory = chatHistory;
-            setChatHistory([...copyHatsHistory, data]);
-        } else {
-            setNotifications({
-                [senderId?._id]: notifications[senderId?._id] + 1 || 1
-            });
-        }
-    };
-    socket?.current?.on("private_message", onMessage);
+    useEffect(() => {
+        const onMessage = (data) => {
+            const { senderId, recieverId } = data;
+            const isCurrentChat =
+                (senderId._id === currentChat && recieverId._id === user._id) ||
+                (senderId._id === user._id && recieverId._id === currentChat);
+            if (isCurrentChat) {
+                // Mark message as received if it's in current chat
+                // updateMessagesAsRecieved(recieverId, senderId);
+                setChatHistory(prevHistory => [...prevHistory, data]);
+            } else {
+                setNotifications(prevNotifications => ({
+                    ...prevNotifications,
+                    [senderId?._id]: (prevNotifications[senderId?._id] || 0) + 1
+                }));
+            }
+        };
+
+        socket?.current?.on("private_message", onMessage);
+
+        return () => {
+            socket?.current?.off("private_message", onMessage);
+        };
+
+    });
 
     //update the typing status.
     useEffect(() => {
@@ -123,17 +133,20 @@ const socketContextProvider = ({ children }) => {
         }
     };
 
-    const onConversationChats = (data) => {
-        // data={chats}
-        const prevChats = [...chatHistory];
-        console.log(data);
-        if (data) {
-            setChatHistory([...data, ...prevChats]);
-        }
-        setChatLoading(false);
-    };
-    socket?.current?.on("conversation_chats", onConversationChats);
+    useEffect(() => {
+        const onConversationChats = (data) => {
+            // data={chats}
+            console.log(data);
+            if (data) {
+                setChatHistory(data);
+            }
+            setChatLoading(false);
+        };
+        socket?.current?.on("conversation_chats", onConversationChats);
+        return () => { socket?.current?.off("conversation_chats", onConversationChats); };
 
+
+    });
     // Getting friends status
 
     const updateMessageAsSeen = (data) => {
@@ -143,7 +156,7 @@ const socketContextProvider = ({ children }) => {
 
     const updateMessagesAsRecieved = (recieverId, senderId) => {
         const data = { recieverId, senderId };
-        socket?.current?.emit("message_recieved", data);
+        // socket?.current?.emit("message_recieved", data);
     };
 
     const values = {

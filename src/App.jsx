@@ -28,8 +28,19 @@ export const serverCon = axios.create({
 export const baseUrlForUploads = backend_url + "uploads";
 
 export const ToastMessage = (message) => {
-  toast(message);
+  toast(message, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: 'Bounce',
+  });
 };
+
 
 
 const Layout = () => {
@@ -82,15 +93,14 @@ const App = () => {
     friendRequests,
   } = useSelector((state) => state.user);
   const {
-    socket,
+    socket = null,
     connected,
     sendMessage,
     onMessage,
     friendsStatus,
     typingStatus,
     setFriendsStatus,
-  } =
-    (import.meta.env.VITE_SOCKET_URL, user);
+  } = useSocket(import.meta.env.VITE_SOCKET_URL, user);
 
 
   const fetchfriendsData = async () => {

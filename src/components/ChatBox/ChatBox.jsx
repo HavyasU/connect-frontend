@@ -160,7 +160,7 @@ const ChatBox = ({
       <form
         className="w-full h-fit px-2 flex justify-start items-center gap-2"
         onSubmit={handleSubmit((data) => {
-          // if (data?.chatInput?.split() == "" || data?.chatInput?.split() == undefined) { return; }
+          if (data?.chatInput?.split() == "" || data?.chatInput?.split() == undefined) { return; }
           sendMessage({
             senderId: user._id,
             recieverId: currentChat,
