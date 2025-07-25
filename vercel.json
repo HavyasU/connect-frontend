@@ -4,10 +4,5 @@
             "source": "/(.*)",
             "destination": "/"
         }
-    ],
-    "functions": {
-        "api/ping.js": {
-            "schedule": "*/4 * * * *"
-        }
-    }
+    ]
 }
