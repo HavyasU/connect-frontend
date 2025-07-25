@@ -107,12 +107,12 @@ const TopBar = ({ friendRequests }) => {
               />
             )}
           </div>
-          <Link
+          {/* <Link
             to={"/chats"}
             className="flex gap-2 items-center justify-center"
           >
             Chats
-          </Link>
+          </Link> */}
           <div className="max-md:hidden">
             <CustomButton
               onClick={() => dispatch(userLogout())}
@@ -133,9 +133,8 @@ const TopBar = ({ friendRequests }) => {
         </div>
       </div>
       <div
-        className={`bg-primary mobile-search-box ${
-          mobileSearch ? "active" : ""
-        }`}
+        className={`bg-primary mobile-search-box ${mobileSearch ? "active" : ""
+          }`}
       >
         <MobileSeachBox handleSearch={handleSearch} />
       </div>

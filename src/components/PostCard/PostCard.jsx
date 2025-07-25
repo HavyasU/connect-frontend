@@ -221,7 +221,7 @@ const PostCard = ({ post, user, fetchPosts }) => {
 
   }, []);
 
-  // const [volumeHigh, setVolumeHigh] = useState(false);
+  const [volumeHigh, setVolumeHigh] = useState(false);
   return (
     <div className="mb-2 bg-primary p-4  rounded-xl">
       <div className="flex gap-3 items-center mb-3 ">
