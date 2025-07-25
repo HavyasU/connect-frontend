@@ -10,6 +10,7 @@ import { postComments } from "../../assets/data";
 import { baseUrlForUploads, ToastMessage } from "../../App";
 import { CiVolumeHigh, CiVolumeMute } from "react-icons/ci";
 import { fetchPosts, fetchRequestCaller } from "../../utils";
+import { useRef } from "react";
 const ReplyCard = ({ reply, user, handleLike }) => {
   return (
     <div className="w-full py-3">
@@ -118,11 +119,10 @@ const CommentForm = ({ user, id, replyAt, getComments }) => {
       {errMsg?.message && (
         <span
           role="alert"
-          className={`text-sm ${
-            errMsg?.status === "failed"
-              ? "text-[#f64949fe]"
-              : "text-[#2ba150fe]"
-          } mt-0.5`}
+          className={`text-sm ${errMsg?.status === "failed"
+            ? "text-[#f64949fe]"
+            : "text-[#2ba150fe]"
+            } mt-0.5`}
         >
           {errMsg?.message}
         </span>
@@ -191,12 +191,43 @@ const PostCard = ({ post, user, fetchPosts }) => {
     });
     fetchPosts();
   };
-  const [volumeHigh, setVolumeHigh] = useState(false);
+
+  const videoRef = useRef(null);
+  const observerRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video) return;
+
+    observerRef.current = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        if (!video.paused) return;
+        video.play().catch(() => { });
+      } else {
+        if (!video.paused) video.pause();
+      }
+    },
+      {
+        threshold: 0.5,
+      });
+
+    observerRef.current.observe(video);
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+
+
+  }, []);
+
+  // const [volumeHigh, setVolumeHigh] = useState(false);
   return (
     <div className="mb-2 bg-primary p-4  rounded-xl">
       <div className="flex gap-3 items-center mb-3 ">
         <Link to={"/profile/" + post?.userId?._id}>
           <img
+
             src={
               post?.userId?.profileUrl
                 ? `${baseUrlForUploads}/${post?.userId?.profileUrl}`
@@ -260,14 +291,17 @@ const PostCard = ({ post, user, fetchPosts }) => {
         {post?.type === "video" && post?.media && (
           <div className="relative">
             <video
-              muted={!volumeHigh}
-              autoPlay
+              muted
+              ref={videoRef}
+              // autoPlay
+              // controlsList="nodownload"
+              controls
               loop
               src={`${baseUrlForUploads}/${post?.media}`}
               alt="post image"
               className="w-full mt-2 rounded-lg"
             />
-            {volumeHigh ? (
+            {/* {volumeHigh ? (
               <CiVolumeHigh
                 size={25}
                 onClick={() => setVolumeHigh(!volumeHigh)}
@@ -279,7 +313,7 @@ const PostCard = ({ post, user, fetchPosts }) => {
                 onClick={() => setVolumeHigh(!volumeHigh)}
                 className="absolute bottom-3 right-3 text-white"
               />
-            )}
+            )} */}
           </div>
         )}
       </div>
