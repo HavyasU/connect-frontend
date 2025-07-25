@@ -95,7 +95,7 @@ const App = () => {
   const {
     socket = null,
     connected,
-    sendMessage,
+  sendMessage,
     onMessage,
     friendsStatus,
     typingStatus,
@@ -104,6 +104,9 @@ const App = () => {
 
 
   const fetchfriendsData = async () => {
+    if (!user) {
+      return;
+    }
     let suggested = await fetchRequestCaller({
       token: user?.token,
       data: {
