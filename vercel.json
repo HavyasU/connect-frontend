@@ -5,10 +5,9 @@
             "destination": "/"
         }
     ],
-    "cron": [
-        {
-            "path": "/api/ping",
+    "functions": {
+        "api/ping.js": {
             "schedule": "*/4 * * * *"
         }
-    ]
+    }
 }
