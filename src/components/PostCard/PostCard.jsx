@@ -19,7 +19,7 @@ const ReplyCard = ({ reply, user, handleLike }) => {
           <img
             src={
               reply?.userId?.profileUrl
-                ? `${baseUrlForUploads}/${reply?.userId?.profileUrl}`
+                ? `${baseUrlForUploads}${reply?.userId?.profileUrl}`
                 : NoProfile
             }
             alt={reply?.userId?.firstName}
@@ -99,7 +99,7 @@ const CommentForm = ({ user, id, replyAt, getComments }) => {
         <img
           src={
             user?.profileUrl
-              ? `${baseUrlForUploads}/${user?.profileUrl}`
+              ? `${baseUrlForUploads}${user?.profileUrl}`
               : NoProfile
           }
           alt="User Image"
@@ -150,6 +150,8 @@ const PostCard = ({ post, user, fetchPosts }) => {
   const [loading, setLoading] = useState(false);
   const [replyComments, setReplyComments] = useState(0);
   const [showComments, setShowComments] = useState(0);
+  const [likesLoading, setLikesLoading] = useState(false);
+  const [isCommentLikesLoading, setIsComentLikesLoading] = useState(null);
 
   const fetchComments = async () => {
     let res = await fetchRequestCaller({
@@ -173,6 +175,8 @@ const PostCard = ({ post, user, fetchPosts }) => {
     setLoading(false);
   };
   const handleCommentLike = async (id, rid) => {
+    if (isCommentLikesLoading) return;
+    setIsComentLikesLoading(id);
     let apiUrl = rid
       ? `/posts/like-comment/${id}/${rid}`
       : "/posts/like-comment/" + id;
@@ -181,15 +185,20 @@ const PostCard = ({ post, user, fetchPosts }) => {
       method: "POST",
       token: user?.token,
     });
-    getComments();
+    getComments().finally(() => {
+      setIsComentLikesLoading(null);
+    });
   };
   const handlePostLike = async (id) => {
+    setLikesLoading(true);
     let res = await fetchRequestCaller({
       url: "/posts/like/" + id,
       method: "POST",
       token: user?.token,
     });
-    fetchPosts();
+    fetchPosts().then(() => {
+      setLikesLoading(false);
+    });
   };
 
   const videoRef = useRef(null);
@@ -230,7 +239,7 @@ const PostCard = ({ post, user, fetchPosts }) => {
 
             src={
               post?.userId?.profileUrl
-                ? `${baseUrlForUploads}/${post?.userId?.profileUrl}`
+                ? `${baseUrlForUploads}${post?.userId?.profileUrl}`
                 : NoProfile
             }
             alt={post?.userId?.firstName}
@@ -283,8 +292,9 @@ const PostCard = ({ post, user, fetchPosts }) => {
 
         {post?.type === "image" && post?.media && (
           <img
-            src={`${baseUrlForUploads}/${post?.media}`}
+            src={`${baseUrlForUploads}${post?.media}`}
             alt="post image"
+            loading="lazy"
             className="w-full mt-2 rounded-lg"
           />
         )}
@@ -297,7 +307,7 @@ const PostCard = ({ post, user, fetchPosts }) => {
               // controlsList="nodownload"
               controls
               loop
-              src={`${baseUrlForUploads}/${post?.media}`}
+              src={`${baseUrlForUploads}${post?.media}`}
               alt="post image"
               className="w-full mt-2 rounded-lg"
             />
@@ -326,12 +336,16 @@ const PostCard = ({ post, user, fetchPosts }) => {
           onClick={() => handlePostLike(post?._id)}
           className="flex gap-2 items-center text-base cursor-pointer"
         >
-          {post?.likes?.includes(user?._id) ? (
-            <BiSolidLike size={20} color="blue" />
-          ) : (
-            <BiLike size={20} />
-          )}
-          {post?.likes?.length} <span className="max-sm:hidden">Likes</span>
+          {likesLoading ? <Loading /> : (<>
+            {post?.likes?.includes(user?._id) ? (
+              <BiSolidLike size={20} color="blue" />
+            ) : (
+              <BiLike size={20} />
+            )}
+            {post?.likes?.length} <span className="max-sm:hidden">Likes</span>
+
+          </>)
+          }
         </p>
 
         <p
@@ -381,7 +395,7 @@ const PostCard = ({ post, user, fetchPosts }) => {
                     <img
                       src={
                         comment?.userId?.profileUrl
-                          ? `${baseUrlForUploads}/${comment?.userId?.profileUrl}`
+                          ? `${baseUrlForUploads}${comment?.userId?.profileUrl}`
                           : NoProfile
                       }
                       alt={comment?.userId?.firstName}
@@ -408,12 +422,18 @@ const PostCard = ({ post, user, fetchPosts }) => {
                       onClick={() => handleCommentLike(comment._id)}
                       className="flex gap-2 items-center text-base text-ascent-2 cursor-pointer"
                     >
-                      {comment?.likes?.includes(user?._id) ? (
-                        <BiSolidLike size={20} color="blue" />
-                      ) : (
-                        <BiLike size={20} />
-                      )}
-                      {comment?.likes?.length} Likes
+                      {isCommentLikesLoading == comment?._id ? <Loading /> : (
+                        <>
+                          {comment?.likes?.includes(user?._id) ? (
+                            <BiSolidLike size={20} color="blue" />
+                          ) : (
+                            <BiLike size={20} />
+                          )}
+                          {comment?.likes?.length} Likes
+                        </>
+                      )
+                      }
+
                     </p>
                     <span
                       className="text-blue cursor-pointer"

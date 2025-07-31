@@ -13,8 +13,11 @@ const VerificationPage = () => {
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { type, userId, otp } = useParams();
   const verify = async (data) => {
+    if (isLoading) return;
+    setIsLoading(true);
     const endpoint = type === "verifyEmail" ? "verify-email" : "resetpassword";
     serverCon
       .post("/users/" + endpoint, {
@@ -41,13 +44,16 @@ const VerificationPage = () => {
         setTimeout(() => {
           navigate("/login");
         }, 2000);
+      }).finally(() => {
+        setIsLoading(false);
       });
   };
   useEffect(() => {
     if (type == "verifyEmail") {
-      verify();
+      if (!isLoading)
+        verify();
     }
-  });
+  }, []);
 
   const {
     register,

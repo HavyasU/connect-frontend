@@ -9,16 +9,16 @@ const FilePreview = ({ chat: { type: fileType, fileUrl: src } }) => {
   return (
     <div className="   w-full h-full">
       {fileType == "image" && (
-        <ImagePreview src={`${baseUrlForUploads}/${src}`} />
+        <ImagePreview src={`${baseUrlForUploads}${src}`} />
       )}
       {fileType == "video" && (
-        <VideoPreview src={`${baseUrlForUploads}/${src}`} />
+        <VideoPreview src={`${baseUrlForUploads}${src}`} />
       )}
       {fileType == "document" && (
-        <DocsPreview src={`${baseUrlForUploads}/${src}`} />
+        <DocsPreview src={`${baseUrlForUploads}${src}`} />
       )}
       {fileType == "audio" && (
-        <AudioPreview src={`${baseUrlForUploads}/${src}`} />
+        <AudioPreview src={`${baseUrlForUploads}${src}`} />
       )}
     </div>
   );

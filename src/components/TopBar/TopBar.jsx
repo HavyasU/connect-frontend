@@ -107,7 +107,7 @@ const TopBar = ({ friendRequests }) => {
               />
             )}
           </div>
-          {/* <Link
+          {/* <Linkx
             to={"/chats"}
             className="flex gap-2 items-center justify-center"
           >

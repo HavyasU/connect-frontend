@@ -99,7 +99,7 @@ const ChatBox = ({
               className="w-full h-full object-cover"
               src={
                 findFriend(currentChat)?.profileUrl
-                  ? `${baseUrlForUploads}/${findFriend(currentChat)?.profileUrl}`
+                  ? `${baseUrlForUploads}${findFriend(currentChat)?.profileUrl}`
                   : NoProfile
               }
               alt="loading"

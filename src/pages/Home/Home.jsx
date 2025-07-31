@@ -37,6 +37,8 @@ const Home = () => {
   const [errMsg, setErrMsg] = useState("");
   const [posting, setPosting] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [friendRequestLoading, setFriendRequestLoading] = useState(false);
   const dispatch = useDispatch();
 
   const {
@@ -92,7 +94,7 @@ const Home = () => {
       url: "/posts/delete-post/" + id,
       token: user?.token,
       method: "DELETE",
-      dispatch: () => {},
+      dispatch: () => { },
     });
     ToastMessage(res?.message);
     fetchPostsData();
@@ -100,6 +102,10 @@ const Home = () => {
 
   //giving friend request
   const addFriend = async (requestTo) => {
+    if (friendRequestLoading) {
+      return;
+    }
+    setFriendRequestLoading(true);
     let res = await fetchRequestCaller({
       method: "POST",
       url: "users/friend-request",
@@ -109,6 +115,7 @@ const Home = () => {
       token: user?.token,
     });
     ToastMessage(res?.message);
+    setFriendRequestLoading(false);
   };
 
   const responseToRequest = async (rid, status) => {
@@ -152,7 +159,7 @@ const Home = () => {
               <img
                 src={
                   user?.profileUrl
-                    ? `${baseUrlForUploads}/${user?.profileUrl}`
+                    ? `${baseUrlForUploads}${user?.profileUrl}`
                     : NoProfile
                 }
                 alt="User Image"
@@ -171,11 +178,10 @@ const Home = () => {
             {errMsg?.message && (
               <span
                 role="alert"
-                className={`text-sm ${
-                  errMsg?.status === "failed"
-                    ? "text-[#f64949fe]"
-                    : "text-[#2ba150fe]"
-                } mt-0.5`}
+                className={`text-sm ${errMsg?.status === "failed"
+                  ? "text-[#f64949fe]"
+                  : "text-[#2ba150fe]"
+                  } mt-0.5`}
               >
                 {errMsg?.message}
               </span>
@@ -296,7 +302,7 @@ const Home = () => {
                         <img
                           src={
                             from?.profileUrl
-                              ? `${baseUrlForUploads}/${from?.profileUrl}`
+                              ? `${baseUrlForUploads}${from?.profileUrl}`
                               : NoProfile
                           }
                           alt={from?.firstName}
@@ -348,7 +354,7 @@ const Home = () => {
                     <img
                       src={
                         friend?.profileUrl
-                          ? `${baseUrlForUploads}/${friend?.profileUrl}`
+                          ? `${baseUrlForUploads}${friend?.profileUrl}`
                           : NoProfile
                       }
                       alt={friend?.firstName}
@@ -367,6 +373,7 @@ const Home = () => {
                   <div className="flex gap-1">
                     <button
                       className="bg-[#0444a430] text-sm text-white p-1 rounded"
+                      disabled={friendRequestLoading}
                       onClick={() => {
                         addFriend(friend._id);
                       }}

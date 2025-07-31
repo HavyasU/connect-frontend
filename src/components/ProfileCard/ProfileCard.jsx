@@ -32,7 +32,7 @@ const ProfileCard = ({ user }) => {
     dispatch(setMobileNotification(false));
     // dispatch(setMobileProfile(false));
   }, []);
-  const sendFriendrequest = () => {};
+  const sendFriendrequest = () => { };
   return (
     <div>
       <div className="w-full bg-primary flex flex-col items-center shadow-sm rounded-xl   px-6 py-4">
@@ -41,7 +41,7 @@ const ProfileCard = ({ user }) => {
             <img
               src={
                 user?.profileUrl
-                  ? `${baseUrlForUploads}/${user?.profileUrl}`
+                  ? `${baseUrlForUploads}${user?.profileUrl}`
                   : NoProfile
               }
               alt={user?.email}

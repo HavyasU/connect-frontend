@@ -136,7 +136,7 @@ const MobileNotification = ({ friendRequests, suggestedFriends }) => {
                           <img
                             src={
                               from.profileUrl
-                                ? `${baseUrlForUploads}/${from?.profileUrl}`
+                                ? `${baseUrlForUploads}${from?.profileUrl}`
                                 : NoProfile
                             }
                             alt={from.firstName}
@@ -188,7 +188,7 @@ const MobileNotification = ({ friendRequests, suggestedFriends }) => {
                       <img
                         src={
                           friend?.profileUrl
-                            ? `${baseUrlForUploads}/${friend?.profileUrl}`
+                            ? `${baseUrlForUploads}${friend?.profileUrl}`
                             : NoProfile
                         }
                         alt={friend?.firstName}

@@ -25,20 +25,11 @@ export const serverCon = axios.create({
   responseType: "json",
 });
 
-export const baseUrlForUploads = backend_url + "uploads";
+// export const baseUrlForUploads = backend_url + "uploads"; //needed when using gridfs
+export const baseUrlForUploads = ""; //changed to cloudinary
 
 export const ToastMessage = (message) => {
-  toast(message, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    transition: 'Bounce',
-  });
+  toast(message);
 };
 
 
@@ -95,7 +86,7 @@ const App = () => {
   const {
     socket = null,
     connected,
-  sendMessage,
+    sendMessage,
     onMessage,
     friendsStatus,
     typingStatus,
@@ -131,14 +122,13 @@ const App = () => {
   return (
     <div data-theme={theme}>
       <ToastContainer
-        position="top-center"
-        autoClose={3000}
+        position="top-right"
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={true}
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
+        closeOnClick={true}
+        pauseOnFocusLoss={true}
+        draggable={true}
         theme={theme}
         transition={Flip}
         className={"px-3"}

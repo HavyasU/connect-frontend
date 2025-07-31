@@ -45,7 +45,7 @@ const FriendsInfoCard = ({ friend }) => {
                   className="w-full h-full object-cover"
                   src={
                     friend?.profileUrl
-                      ? `${baseUrlForUploads}/${friend?.profileUrl}`
+                      ? `${baseUrlForUploads}${friend?.profileUrl}`
                       : NoProfile
                   }
                   alt="loading"

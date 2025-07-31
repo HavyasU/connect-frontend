@@ -20,7 +20,7 @@ const FriendsCard = ({ friends }) => {
             <img
               src={
                 friend?.profileUrl
-                  ? `${baseUrlForUploads}/${friend?.profileUrl}`
+                  ? `${baseUrlForUploads}${friend?.profileUrl}`
                   : NoProfile
               }
               alt={friend?.firstName}
