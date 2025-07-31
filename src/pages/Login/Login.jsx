@@ -121,6 +121,8 @@ const Login = () => {
                 />
               )}
               <p className="text-ascent-2 text-sm text-center">
+                {/* Support Section */}
+                <p>Had a problem? <a className="text-[#065ad8] font-semibold mb-2" href="mailto:bitverse.mail@gmail.com">Contact Us</a> </p>
                 Don't have an account?
                 <Link
                   to="/register"
@@ -128,6 +130,7 @@ const Login = () => {
                 >
                   Create Account
                 </Link>
+
               </p>
             </form>
           </div>

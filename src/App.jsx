@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Home, Login, Profile, Register, ResetPassword } from "./pages";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,7 +37,7 @@ export const ToastMessage = (message) => {
 const Layout = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const checkJWT = () => {
+  const checkJWT = async () => {
     if (user) {
       serverCon
         .get("/auth/checkToken", {
@@ -59,10 +59,18 @@ const Layout = () => {
     }
   };
   useEffect(() => {
-    checkJWT();
-  }, []);
-  useEffect(() => {
-    checkJWT();
+    const initApp = async () => {
+      try {
+        await checkJWT();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (user) {
+      initApp();
+    }
+
   }, [user]);
   const location = useLocation();
   return user?.token ? (
@@ -86,7 +94,6 @@ const App = () => {
   const {
     socket = null,
     connected,
-    sendMessage,
     onMessage,
     friendsStatus,
     typingStatus,
@@ -108,16 +115,21 @@ const App = () => {
       url: "/users/get-friend-request",
       token: user?.token,
     });
+    console.log("Its a friend suggest or request");
+    console.log(user);
     dispatch(setSuggestedFriends(suggested?.data));
     dispatch(setFriendRequets(requestdFriendsData?.data));
   };
-  useEffect(() => {
-    fetchfriendsData();
-  }, [user]);
+
 
   if (!useSocket) {
     return (<div>Loading...</div>);
   }
+
+  useEffect(() => {
+    if (!user) return;
+    fetchfriendsData();
+  }, [user]);
 
   return (
     <div data-theme={theme}>
@@ -142,6 +154,7 @@ const App = () => {
           suggestedFriends={suggestedFriends}
         />
       )}
+
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />

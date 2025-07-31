@@ -206,7 +206,6 @@ const PostCard = ({ post, user, fetchPosts }) => {
 
   useEffect(() => {
     const video = videoRef.current;
-
     if (!video) return;
 
     observerRef.current = new IntersectionObserver(([entry]) => {
@@ -225,6 +224,7 @@ const PostCard = ({ post, user, fetchPosts }) => {
 
     return () => {
       observerRef.current?.disconnect();
+      muteInterval && clearInterval(muteInterval);
     };
 
 
@@ -301,7 +301,6 @@ const PostCard = ({ post, user, fetchPosts }) => {
         {post?.type === "video" && post?.media && (
           <div className="relative">
             <video
-              muted
               ref={videoRef}
               // autoPlay
               // controlsList="nodownload"

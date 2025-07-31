@@ -56,7 +56,7 @@ const Register = () => {
 
   return (
     <div className="bg-bgColor w-full h-[100vh] flex items-center justify-center p-6">
-      <div className="w-full md:w-2/3 h-full overflow-scroll  lg:h-full 2xl:h-5/6 py-8 lg:py-0 flex flex-row-reverse bg-primary rounded-xl  shadow-xl ">
+      <div className="w-full md:w-2/3 h-full overflow-scroll  lg:h-full  py-8 lg:py-0 flex flex-row-reverse bg-primary rounded-xl  shadow-xl ">
         <div className="w-full lg:w-1/2 m-auto  overflow-scroll p-10 2xl:px-20 flex flex-col justify-center ">
           <div className="w-full flex gap-2 items-center mb-6  ">
             <div className="p-2 bg-[#065ad8] rounded text-white">
@@ -169,6 +169,7 @@ const Register = () => {
           </form>
 
           <p className="text-ascent-2 text-sm text-center">
+            <p>Had a problem? <a className="text-[#065ad8] font-semibold mb-3" href="mailto:bitverse.mail@gmail.com">Contact Us</a> </p>
             Already has an account?{" "}
             <Link
               to="/login"
@@ -177,6 +178,8 @@ const Register = () => {
               Login
             </Link>
           </p>
+          {/* Support Section */}
+
         </div>
       </div>
     </div>

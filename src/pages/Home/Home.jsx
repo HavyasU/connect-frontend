@@ -89,18 +89,19 @@ const Home = () => {
       dispatch: dispatch,
     });
   };
-  const handleDeletePost = async (id) => {
-    let res = await fetchPosts({
-      url: "/posts/delete-post/" + id,
-      token: user?.token,
-      method: "DELETE",
-      dispatch: () => { },
-    });
-    ToastMessage(res?.message);
-    fetchPostsData();
-  };
+  // const handleDeletePost = async (id) => {
+  //   let res = await fetchPosts({
+  //     url: "/posts/delete-post/" + id,
+  //     token: user?.token,
+  //     method: "DELETE",
+  //     dispatch: () => { },
+  //   });
+  //   ToastMessage(res?.message);
+  //   fetchPostsData();
+  // };
 
   //giving friend request
+
   const addFriend = async (requestTo) => {
     if (friendRequestLoading) {
       return;
@@ -133,8 +134,12 @@ const Home = () => {
     ToastMessage(response?.message);
   };
   useEffect(() => {
-    fetchPostsData();
-    fetchUserData();
+    fetchUserData().then(() => {
+      fetchPostsData();
+    }).catch((err) => {
+      console.log(err);
+    });
+
   }, []);
 
   return (
@@ -163,10 +168,10 @@ const Home = () => {
                     : NoProfile
                 }
                 alt="User Image"
-                className="w-14 h-14 rounded-full object-cover"
+                className="w-14 h-12 rounded-full object-fit-cover"
               />
               <TextInput
-                styles="w-full rounded-full py-5"
+                styles="w-full rounded-full py-3"
                 placeholder="What's on your mind...."
                 name="description"
                 register={register("description", {
