@@ -224,7 +224,6 @@ const PostCard = ({ post, user, fetchPosts }) => {
 
     return () => {
       observerRef.current?.disconnect();
-      muteInterval && clearInterval(muteInterval);
     };
 
 
